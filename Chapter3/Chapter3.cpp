@@ -1,83 +1,70 @@
 #include "stdafx.h"
 
-#include <iostream>
+#include <stdio.h>
 
-// GLEW
-#define GLEW_STATIC
-#include <GL/glew.h>
+#include <GL/glut.h>      // (or others, depending on the system in use)
 
-// GLFW
-#include <GLFW/glfw3.h>
+int point1[] = {10,15};
+int point2[] = {180,145};
 
-
-// Function prototypes
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
-
-// Window dimensions
-const GLuint WIDTH = 800, HEIGHT = 600;
-
-// The MAIN function, from here we start the application and run the game loop
-int main()
+GLenum errorCheck()
 {
-    std::cout << "Starting GLFW context, OpenGL 3.3" << std::endl;
-    // Init GLFW
-    glfwInit();
-    // Set all the required options for GLFW
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	GLenum code;
+	const GLubyte* str;
 
-    // Create a GLFWwindow object that we can use for GLFW's functions
-    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "LearnOpenGL", nullptr, nullptr);    
-    if (window == nullptr)
-    {
-        std::cout << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return -1;
-    }
-    glfwMakeContextCurrent(window);
-    // Set the required callback functions
-    glfwSetKeyCallback(window, key_callback);
-
-    // Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
-    glewExperimental = GL_TRUE;
-    // Initialize GLEW to setup the OpenGL Function pointers
-    if (glewInit() != GLEW_OK)
-    {
-        std::cout << "Failed to initialize GLEW" << std::endl;
-        return -1;
-    }    
-
-    // Define the viewport dimensions
-    int width, height;
-    glfwGetFramebufferSize(window, &width, &height);  
-    glViewport(0, 0, width, height);
-
-    // Game loop
-    while (!glfwWindowShouldClose(window))
-    {
-        // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
-        glfwPollEvents();
-
-        // Render
-        // Clear the colorbuffer
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        // Swap the screen buffers
-        glfwSwapBuffers(window);
-    }
-
-    // Terminate GLFW, clearing any resources allocated by GLFW.
-    glfwTerminate();
-    return 0;
+	code = glGetError();
+	if(code != GL_NO_ERROR)
+	{
+		str = gluErrorString(code);
+		fprintf(stderr, "OpenGL error: %s\n",str);
+	}
+	return code;
 }
 
-// Is called whenever a key is pressed/released via GLFW
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
+void init (void)
 {
-    std::cout << key << std::endl;
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GL_TRUE);
+	glClearColor (1.0, 1.0, 1.0, 0.0);  // Set display-window color to white.
+
+	glMatrixMode (GL_PROJECTION);       // Set projection parameters.
+	glLoadIdentity();
+	gluOrtho2D (0.0, 200.0, 0.0, 150.0);
+}
+
+void pointSegment (void)
+{
+	glPointSize(10);
+	glColor3f (1.0, 0.4, 0.2);      // Set line segment color to green.
+	glBegin (GL_POINTS);
+	glVertex2iv (point1);       // Specify line-segment geometry.
+	glVertex2iv (point2);
+	glEnd ( );
+}
+
+void lineSegment (void)
+{
+	glClear (GL_COLOR_BUFFER_BIT);  // Clear display window.
+
+	glLineWidth(5);
+	glColor3f (0.0, 0.4, 0.2);      // Set line segment color to green.
+	glBegin (GL_LINES);
+	glVertex2i (180,15);       // Specify line-segment geometry.
+	glVertex2i (10,145);
+	glEnd ( );
+
+	pointSegment();
+
+	glFlush ( );     // Process all OpenGL routines as quickly as possible.
+}
+
+void main (int argc, char** argv)
+{
+	glutInit (&argc, argv);                         // Initialize GLUT.
+	glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);   // Set display mode.
+	glutInitWindowPosition (50, 100);   // Set top-left display-window position.
+	glutInitWindowSize (400, 300);      // Set display-window width and height.
+	glutCreateWindow ("An Example OpenGL Program"); // Create display window.
+
+	init ( );                            // Execute initialization procedure.
+	glutDisplayFunc (lineSegment);       // Send graphics to display window.
+	glutMainLoop ( );                    // Display everything and wait.
 }
