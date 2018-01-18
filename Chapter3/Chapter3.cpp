@@ -4,8 +4,14 @@
 
 #include <GL/glut.h>      // (or others, depending on the system in use)
 
-int point1[] = {10,15};
-int point2[] = {180,145};
+int point1[] = {10,130};
+int point2[] = {30,10};
+int point3[] = {80,10};
+int point4[] = {60,110};
+int point5[] = {100,120};
+int point6[] = {105,30};
+int point7[] = {190,5};
+int point8[] = {180,145};
 
 GLenum errorCheck()
 {
@@ -30,29 +36,32 @@ void init (void)
 	gluOrtho2D (0.0, 200.0, 0.0, 150.0);
 }
 
-void pointSegment (void)
-{
-	glPointSize(10);
-	glColor3f (1.0, 0.4, 0.2);      // Set line segment color to green.
-	glBegin (GL_POINTS);
-	glVertex2iv (point1);       // Specify line-segment geometry.
-	glVertex2iv (point2);
-	glEnd ( );
-}
-
 void lineSegment (void)
 {
 	glClear (GL_COLOR_BUFFER_BIT);  // Clear display window.
 
 	glLineWidth(5);
 	glColor3f (0.0, 0.4, 0.2);      // Set line segment color to green.
-	glBegin (GL_LINES);
-	glVertex2i (180,15);       // Specify line-segment geometry.
-	glVertex2i (10,145);
+	//glBegin (GL_LINES);
+	//glBegin(GL_LINE_STRIP);
+	//glBegin(GL_LINE_LOOP);
+	//glBegin(GL_POLYGON);
+	//glBegin(GL_TRIANGLES);
+	//glBegin(GL_TRIANGLE_STRIP);
+	//glBegin(GL_QUADS);
+	glBegin(GL_QUAD_STRIP);
+	glVertex2iv (point1);
+	glVertex2iv (point2);
+	glVertex2iv (point4);
+	glVertex2iv (point3);
+	glVertex2iv (point5);
+	glVertex2iv (point6);
+	glVertex2iv (point8);
+	glVertex2iv (point7);
 	glEnd ( );
 
-	pointSegment();
-
+	//pointSegment();
+	//rectSegment();
 	glFlush ( );     // Process all OpenGL routines as quickly as possible.
 }
 

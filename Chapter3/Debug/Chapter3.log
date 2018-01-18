@@ -1,4 +1,4 @@
-﻿生成启动时间为 2018/1/13 21:20:12。
+﻿生成启动时间为 2018/1/17 12:00:55。
      1>项目“E:\project\opengl\ComputerGraphics\Chapter3\Chapter3.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /IE:\project\opengl\ComputerGraphics\Include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Chapter3.pch" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Chapter3.cpp
@@ -11,4 +11,4 @@
 
 生成成功。
 
-已用时间 00:00:01.06
+已用时间 00:00:00.43
