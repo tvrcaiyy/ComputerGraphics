@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 #include <GL/glut.h>      // (or others, depending on the system in use)
-
+//test
 // GLint points[8][3] = {{0,0,0},{0,1,0},{1,0,0},{1,1,0},
 // 					{0,0,1},{0,1,1},{1,0,1},{1,1,1}};
 
