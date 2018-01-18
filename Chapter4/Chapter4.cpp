@@ -109,13 +109,14 @@ void bit()
 			label [h]);
 		xRaster += 50;
 	}*/
+	
 	for(int i = 0;i < 43;i++)
 	{
-		glRasterPos2i(20 + i * 10,300);
+		//glRasterPos2i(20 + i * 10,500);
 		//glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12,label[i]);
 		glutStrokeCharacter(GLUT_STROKE_ROMAN,label[i]);
 	}
-
+	
 	glFlush(); 
 }
 
