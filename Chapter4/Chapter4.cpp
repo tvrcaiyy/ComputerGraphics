@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include <GL/glut.h>      // (or others, depending on the system in use)
+#include <math.h>
 
 // GLint points[8][3] = {{0,0,0},{0,1,0},{1,0,0},{1,1,0},
 // 					{0,0,1},{0,1,1},{1,0,1},{1,1,1}};
@@ -23,6 +24,26 @@ GLubyte rasters[24] = {
 
 GLubyte label[] = {'t','h','e',' ','q','u','i','c','k',' ','b','r','o','w','n',' ','f','o','x',
 	' ','j','u','m','p',' ','o','v','e','r',' ','t','h','e',' ','l','a','z','y',' ','d','o','g','!'};
+//opengl display list
+//const double TWO_PI = 6.2831853;
+//GLuint regHex;
+GLdouble theta;
+GLint x,y,k;
+extern const double TWO_PI;
+extern GLuint regHex;
+
+void displayListTest()
+{
+	glBegin(GL_POLYGON);
+	for(k = 0;k <6;k++)
+	{
+		theta = TWO_PI * k / 6.0;
+		x = 200 + 150 * cos(theta);
+		y = 200 + 150 * sin(theta);
+		glVertex2i(x,y);
+	}
+	glEnd();
+}
 
 GLenum errorCheck()
 {
@@ -40,6 +61,11 @@ GLenum errorCheck()
 
 void init (void)
 {
+	regHex = glGenLists(1);
+	glNewList(regHex,GL_COMPILE);
+	displayListTest();
+	glEndList();
+
 	glClearColor (1.0, 1.0, 1.0, 0.0);  // Set display-window color to white.
 
 	glMatrixMode (GL_PROJECTION);       // Set projection parameters.
@@ -74,6 +100,8 @@ void cube()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3,GL_FLOAT,0,points);
 	glDrawElements(GL_QUADS,24,GL_UNSIGNED_BYTE,vertexIndex);
+
+	glCallList(regHex);
 
 	glFlush();
 }
@@ -120,7 +148,8 @@ void bit()
 	glFlush(); 
 }
 
-void main (int argc, char** argv)
+
+void main1 (int argc, char** argv)
 {
 	glutInit (&argc, argv);                         // Initialize GLUT.
 	glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);   // Set display mode.
@@ -129,7 +158,16 @@ void main (int argc, char** argv)
 	glutCreateWindow ("An Example OpenGL Program"); // Create display window.
 
 	init ( );                            // Execute initialization procedure.
-	//glutDisplayFunc (cube);       // Send graphics to display window.
-	glutDisplayFunc(bit);
+	glutDisplayFunc (cube);       // Send graphics to display window.
+
+	//glutDisplayFunc(bit);
+
 	glutMainLoop ( );                    // Display everything and wait.
+}
+
+void main2(int argc, char** argv);
+void main(int argc, char** argv)
+{
+	//main1(argc,argv);
+	main2(argc,argv);
 }
